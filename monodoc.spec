@@ -1,12 +1,12 @@
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
-Version:	1.0.2
-Release:	2
+Version:	1.0.4
+Release:	1
 License:	GPL
 Group:		Development/Tools
 Source0:	http://www.go-mono.com/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	f072bb91e1a6eda86eea6e326fd94858
+# Source0-md5:	00314ffc609357979943e6152e3dcd6c
 # Source0-size:	10327843
 Source1:	%{name}.desktop
 Patch0:		%{name}-mint.patch
