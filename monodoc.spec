@@ -2,11 +2,12 @@ Summary:	Documentation for Mono class libraries and tools to produce and edit th
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
 Version:	0.10
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Tools
 Source0:	http://www.go-mono.com/archive/%{name}-%{version}.tar.gz
 # Source0-md5:	417e683bd336c3d74a3e5c07b1dd4a86
+Source1:	%{name}.desktop
 URL:		http://www.go-mono.com/
 BuildRequires:	gtk-sharp-devel >= 0.16-2
 BuildRequires:	mono-devel >= 0.30
@@ -36,6 +37,12 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT/%{_desktopdir}
+install %{SOURCE1} $RPM_BUILD_ROOT/%{_desktopdir}
+
+install -d $RPM_BUILD_ROOT/%{_pixmapsdir}
+install $RPM_BUILD_DIR/%{name}-%{version}/monodoc.svg $RPM_BUILD_ROOT/%{_pixmapsdir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -49,3 +56,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/*.exe
 %{_libdir}/%{name}/*.xml
 %{_libdir}/%{name}/sources
+%{_desktopdir}/*.desktop
+%{_pixmapsdir}/*
