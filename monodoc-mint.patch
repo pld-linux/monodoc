@@ -1,8 +1,7 @@
-diff -Nuard monodoc-1.0.orig/browser/Makefile.am monodoc-1.0/browser/Makefile.am
---- monodoc-1.0.orig/browser/Makefile.am	2004-06-24 02:51:18.000000000 +0200
-+++ monodoc-1.0/browser/Makefile.am	2004-07-03 18:47:11.347883896 +0200
-@@ -79,10 +79,10 @@
- 	if sed 's,@''monodocdir@,$(monodocdir),' $(srcdir)/monodoc.dll.config.in > $@t; then mv $@t $@; else rm -f $@t ; exit 1; fi
+--- monodoc-1.0.6/browser/Makefile.am.orig	2005-02-27 15:36:52.081795696 +0100
++++ monodoc-1.0.6/browser/Makefile.am	2005-02-27 15:43:53.605714320 +0100
+@@ -104,10 +104,10 @@
+ 	if sed 's,@''monodoc_refdir@,$(monodoc_refdir),' $(srcdir)/monodoc.dll.config.in > $@t; then mv $@t $@; else rm -f $@t ; exit 1; fi
  
  b: browser.exe
 -	MONO_PATH=. mono --debug browser.exe
@@ -14,7 +13,7 @@ diff -Nuard monodoc-1.0.orig/browser/Makefile.am monodoc-1.0/browser/Makefile.am
  
  mod.exe: mod.cs monodoc.dll
  	$(CSC) $(srcdir)/mod.cs -r:./monodoc.dll -out:mod.exe
-@@ -113,7 +113,7 @@
+@@ -138,7 +138,7 @@
  	mcs -g server.cs -target:library -out:bin/Monodoc.Contributions.dll -r:System.Web -r:System.Web.Services -r:./monodoc.dll -r:System.Data -r:ByteFX.Data
  
  web: bin/Monodoc.Contributions.dll
@@ -23,9 +22,8 @@ diff -Nuard monodoc-1.0.orig/browser/Makefile.am monodoc-1.0/browser/Makefile.am
  
  db:
  	mysql -u admin -p 
-diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
---- monodoc-1.0.orig/class/Makefile.am	2004-06-29 13:41:01.000000000 +0200
-+++ monodoc-1.0/class/Makefile.am	2004-07-03 18:47:11.348883744 +0200
+--- monodoc-1.0.6/class/Makefile.am.orig	2005-02-27 15:44:29.104317712 +0100
++++ monodoc-1.0.6/class/Makefile.am	2005-02-27 15:56:25.446417160 +0100
 @@ -14,37 +14,37 @@
  netdocs: netdocs.tree
  
@@ -92,41 +90,56 @@ diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
  
  dist-hook:
  	find . -name '*.xml' > files
-diff -Nuard monodoc-1.0.orig/configure.in monodoc-1.0/configure.in
---- monodoc-1.0.orig/configure.in	2004-06-29 18:04:06.000000000 +0200
-+++ monodoc-1.0/configure.in	2004-07-03 18:47:11.349883592 +0200
-@@ -41,7 +41,26 @@
+--- monodoc-1.0.6/configure.in.orig	2005-02-27 15:57:09.503719432 +0100
++++ monodoc-1.0.6/configure.in	2005-02-27 16:03:00.959290064 +0100
+@@ -41,7 +41,25 @@
  if test "x$with_gtk" = "xyes" ; then
    GTKSHARP_REQUIRED_VERSION=0.91
    MONO_REQUIRED_VERSION=0.90
 -  PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION mono >= $MONO_REQUIRED_VERSION)
 +  PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION)
++	PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
++	PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
++	if test "x$has_mono" = "xtrue"; then
++		echo "using mono"
++		RUNTIME="mono --debug"
++	else
++		if test "x$has_mint" = "xtrue"; then
++			echo "using mint"
++			RUNTIME="mint"
++		else
++			AC_MSG_ERROR([Unable to find mono or mint packages]);
++		fi
++	fi
++	AC_SUBST(RUNTIME)
++	
++	BASE_DEPENDENCIES_CFLAGS="$BASE_DEPENDENCIES_CFLAGS $BASE_DEPENDENCIES_RUNTIME_CFLAGS"
++	BASE_DEPENDENCIES_LIBS="$BASE_DEPENDENCIES_LIBS $BASE_DEPENDENCIES_RUNTIME_LIBS"
 +
-+  PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
-+  PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
-+
-+  if test "x$has_mono" = "xtrue"; then
-+      echo "using mono"
-+      RUNTIME="mono --debug"
-+  else
-+      if test "x$has_mint" = "xtrue"; then
-+          echo "using mint"
-+         RUNTIME="mint"
-+      else
-+         AC_MSG_ERROR([Unable to find mono or mint packages]);
-+      fi
-+  fi
-+  AC_SUBST(RUNTIME)
-+
-+  BASE_DEPENDENCIES_CFLAGS="$BASE_DEPENDENCIES_CFLAGS $BASE_DEPENDENCIES_RUNTIME_CFLAGS"
-+  BASE_DEPENDENCIES_LIBS="$BASE_DEPENDENCIES_LIBS $BASE_DEPENDENCIES_RUNTIME_LIBS"
  fi
  
  AC_OUTPUT([
-diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
---- monodoc-1.0.orig/monodoc.in	2004-06-04 18:34:25.000000000 +0200
-+++ monodoc-1.0/monodoc.in	2004-07-03 18:47:32.430678824 +0200
-@@ -14,7 +14,7 @@
+--- monodoc-1.0.6/monodoc.in.orig	2005-02-27 16:03:52.525450816 +0100
++++ monodoc-1.0.6/monodoc.in	2005-02-27 16:08:07.872632144 +0100
+@@ -13,22 +13,22 @@
+ 	;;
+ 
+     monodocer)
+-	exec mono $monodocdir/monodocer.exe $*
++	exec @RUNTIME@ $monodocdir/monodocer.exe $*
+ 	;;
+ 
+     monodocs2html)
+-	exec mono $monodocdir/monodocs2html.exe $*
++	exec @RUNTIME@ $monodocdir/monodocs2html.exe $*
+ 	;;
+ 
+     monodocs2slashdoc)
+-	exec mono $monodocdir/monodocs2slashdoc.exe $*
++	exec @RUNTIME@ $monodocdir/monodocs2slashdoc.exe $*
+ 	;;
+ esac
+ 
  case x$1 in
      x--assemble)
  	shift;
@@ -135,7 +148,7 @@ diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
  	;;
      x--get-sourcesdir)
  	echo $monodocdir/sources
-@@ -22,20 +22,20 @@
+@@ -36,7 +36,7 @@
  	;;
      x--normalize)
  	shift;
@@ -143,9 +156,8 @@ diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
 +	exec @RUNTIME@ $monodocdir/normalize.exe "$@"
  	;;
      x--update)
- 	shift;
--	exec mono $monodocdir/updater.exe "$@"
-+	exec @RUNTIME@ $monodocdir/updater.exe "$@"
+ 	echo '--update deprecated;  Please use "monodocer" instead.'
+@@ -44,12 +44,12 @@
  	;;
      x--cs-to-ecma)
  	shift;
@@ -160,14 +172,14 @@ diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
  	;;
      x--help)
  	echo "Usage is:"
-@@ -50,8 +50,8 @@
+@@ -77,8 +77,8 @@
+ esac
  
- cd $monodocdir
  if test `basename $0` = mod; then
--    mono --debug mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
-+    @RUNTIME@ mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
+-    mono --debug $monodocdir/mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
++    @RUNTIME@ $monodocdir/mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
      exit
  fi
  
--exec mono --debug browser.exe $OPTIONS "$@" $REST
-+exec @RUNTIME@ browser.exe $OPTIONS "$@" $REST
+-exec mono --debug $monodocdir/browser.exe $OPTIONS "$@" $REST
++exec @RUNTIME@ $monodocdir/browser.exe $OPTIONS "$@" $REST
