@@ -12,7 +12,6 @@ Patch0:		%{name}-mint.patch
 Patch1:		%{name}-gacdir.patch
 URL:		http://www.go-mono.com/
 BuildRequires:	dotnet-gtk-sharp-devel >= 0.98
-BuildRequires:	mono-devel >= 0.96
 BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	automake
 BuildRequires:	autoconf
