@@ -15,10 +15,13 @@ Requires:	mono >= 0.30
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-This package contains the documentation for the Mono class libraries, tools to produce and edit the documentation, and a documentation browser.
+This package contains the documentation for the Mono class libraries,
+tools to produce and edit the documentation, and a documentation
+browser.
 
 %description -l pl
-Ten pakiet zawiera dokumentacjê klas Mono wraz z narzêdziami do jej generowania i przegl±dania.
+Ten pakiet zawiera dokumentacjê klas Mono wraz z narzêdziami do jej
+generowania i przegl±dania.
 
 %prep
 %setup -q
