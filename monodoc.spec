@@ -1,18 +1,18 @@
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
-Version:	0.13
+Version:	0.15
 Release:	1
 License:	GPL
 Group:		Development/Tools
-Source0:	http://www.go-mono.com/archive/%{name}-%{version}.tar.gz
-# Source0-md5:	0caa3508b38d89cd14a6391e83731fe2
+Source0:	http://www.go-mono.com/archive/beta1/%{name}-%{version}.tar.gz
+# Source0-md5:	20deb74994d88a17ea75b743bd4b9da2
 Source1:	%{name}.desktop
 URL:		http://www.go-mono.com/
-BuildRequires:	gtk-sharp-devel >= 0.18
-BuildRequires:	mono-devel >= 0.31
-Requires:	gtk-sharp >= 0.18
-Requires:	mono >= 0.31
+BuildRequires:	dotnet-gtk >= 0.91.1
+BuildRequires:	mono-devel >= 0.91
+Requires:	dotnet-gtk >= 0.91.1
+Requires:	mono >= 0.91
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -48,8 +48,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/*.dll
-%{_libdir}/*.config
+%{_libdir}/mono/gac/*
+%{_libdir}/mono/gtk-sharp/*
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.exe
 %{_libdir}/%{name}/*.xml
