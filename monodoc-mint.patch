@@ -1,0 +1,125 @@
+diff -Nuard monodoc-1.0.orig/browser/Makefile.am monodoc-1.0/browser/Makefile.am
+--- monodoc-1.0.orig/browser/Makefile.am	2004-06-24 02:51:18.000000000 +0200
++++ monodoc-1.0/browser/Makefile.am	2004-07-01 22:00:13.561095024 +0200
+@@ -79,10 +79,10 @@
+ 	if sed 's,@''monodocdir@,$(monodocdir),' $(srcdir)/monodoc.dll.config.in > $@t; then mv $@t $@; else rm -f $@t ; exit 1; fi
+ 
+ b: browser.exe
+-	mono --debug browser.exe
++	$(RUNTIME) browser.exe
+ 
+ c: admin.exe
+-	mono --debug admin.exe
++	$(RUNTIME) admin.exe
+ 
+ mod.exe: mod.cs monodoc.dll
+ 	$(CSC) $(srcdir)/mod.cs -r:./monodoc.dll -out:mod.exe
+@@ -113,7 +113,7 @@
+ 	mcs -g server.cs -target:library -out:bin/Monodoc.Contributions.dll -r:System.Web -r:System.Web.Services -r:./monodoc.dll -r:System.Data -r:ByteFX.Data
+ 
+ web: bin/Monodoc.Contributions.dll
+-	mono --debug /mono/bin/xsp.exe
++	$(RUNTIME) /mono/bin/xsp.exe
+ 
+ db:
+ 	mysql -u admin -p 
+diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
+--- monodoc-1.0.orig/class/Makefile.am	2004-06-29 13:41:01.000000000 +0200
++++ monodoc-1.0/class/Makefile.am	2004-07-01 22:00:40.448007592 +0200
+@@ -14,37 +14,37 @@
+ netdocs: netdocs.tree
+ 
+ netdocs.tree netdocs.zip: $(srcdir)/*/en/*/*.xml $(srcdir)/*/en/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/corlib/en/ --ecma $(srcdir)/System/en/  --ecma $(srcdir)/System.XML/en/ --ecma $(srcdir)/System.Web/en --ecma $(srcdir)/System.Web.Services/en --ecma $(srcdir)/System.Data/en --ecma $(srcdir)/System.DirectoryServices/en --ecma $(srcdir)/System.Drawing/en --ecma $(srcdir)/System.Security/en -o netdocs 
++	$(RUNTIME) ../browser/assembler.exe --ecma $(srcdir)/corlib/en/ --ecma $(srcdir)/System/en/  --ecma $(srcdir)/System.XML/en/ --ecma $(srcdir)/System.Web/en --ecma $(srcdir)/System.Web.Services/en --ecma $(srcdir)/System.Data/en --ecma $(srcdir)/System.DirectoryServices/en --ecma $(srcdir)/System.Drawing/en --ecma $(srcdir)/System.Security/en -o netdocs 
+ 
+ #
+ # All the Mono.* namespaces go into a single package
+ #
+ Mono.tree Mono.zip: $(srcdir)/Mono.Security/en/*/*.xml $(srcdir)/Mono.Security.Win32/en/*/*.xml $(srcdir)/Commons.Xml.Relaxng/en/*/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
++	$(RUNTIME) ../browser/assembler.exe --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
+ 
+ #
+ # All the Novell namespaces we handle go into a single file (one for now).
+ #
+ Novell.tree Novell.zip: $(srcdir)/Novell.Directory.Ldap/en/*/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/Novell.Directory.Ldap/en/ -o Novell
++	$(RUNTIME) ../browser/assembler.exe --ecma $(srcdir)/Novell.Directory.Ldap/en/ -o Novell
+ 
+ #
+ # These are the NUnit documents, not sure why we have these, if NUnit is well documented
+ #
+ nunit-docs.tree nunit-docs.zip: $(srcdir)/nunit/en/*/*.xml $(srcdir)/nunit/en/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/nunit/en/ -o nunit-docs
++	$(RUNTIME) ../browser/assembler.exe --ecma $(srcdir)/nunit/en/ -o nunit-docs
+ 
+ #
+ # Generation of C# errors, from the mcs source tree
+ #
+ cs-errors.tree cs-errors.zip: $(srcdir)/cs-errors.config
+-	mono --debug ../browser/assembler.exe --error $(srcdir)/cs-errors.config -o cs-errors
++	$(RUNTIME) ../browser/assembler.exe --error $(srcdir)/cs-errors.config -o cs-errors
+ 
+ #
+ # The ECMA C# specification, from Jon Jagger.
+ #
+ ecma334.tree ecma334.zip: $(srcdir)/../ecma334/*
+-	mono --debug ../browser/assembler.exe --ecmaspec $(srcdir)/../ecma334 -o ecma334
++	$(RUNTIME) ../browser/assembler.exe --ecmaspec $(srcdir)/../ecma334 -o ecma334
+ 
+ CLEANFILES = \
+ 	ecma334.tree ecma334.zip 	\
+@@ -74,14 +74,14 @@
+ 
+ update:
+ 	for i in $(UPDATE_DIRS); do \
+-		mono --debug ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en -f || exit 1;	\
++		$(RUNTIME) ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en -f || exit 1;	\
+ 	done
+-	mono --debug ../generator/updater.exe @prefix@/lib/mscorlib.dll -o ./corlib/en -f
+-	mono --debug ../generator/updater.exe @prefix@/lib/System.Xml.dll -o ./System.XML/en -f
+-	mono --debug ../generator/updater.exe /usr/local/lib/System.Security.dll -o ./System.Security/en -f
+-	mono --debug ../generator/updater.exe /usr/local/lib/Mono.Security.dll -o ./Mono.Security/en -f
+-	mono --debug ../generator/updater.exe /usr/local/lib/Mono.Security.Win32.dll -o ./Mono.Security.Win32/en -f
+-	mono --debug ../generator/updater.exe @prefix@/lib/NUnit.Framework.dll -o ./nunit/en -f
++	$(RUNTIME) ../generator/updater.exe @prefix@/lib/mscorlib.dll -o ./corlib/en -f
++	$(RUNTIME) ../generator/updater.exe @prefix@/lib/System.Xml.dll -o ./System.XML/en -f
++	$(RUNTIME) ../generator/updater.exe /usr/local/lib/System.Security.dll -o ./System.Security/en -f
++	$(RUNTIME) ../generator/updater.exe /usr/local/lib/Mono.Security.dll -o ./Mono.Security/en -f
++	$(RUNTIME) ../generator/updater.exe /usr/local/lib/Mono.Security.Win32.dll -o ./Mono.Security.Win32/en -f
++	$(RUNTIME) ../generator/updater.exe @prefix@/lib/NUnit.Framework.dll -o ./nunit/en -f
+ 
+ dist-hook:
+ 	find . -name '*.xml' > files
+diff -Nuard monodoc-1.0.orig/configure.in monodoc-1.0/configure.in
+--- monodoc-1.0.orig/configure.in	2004-06-29 18:04:06.000000000 +0200
++++ monodoc-1.0/configure.in	2004-07-01 22:01:11.387304104 +0200
+@@ -26,7 +26,26 @@
+ 
+ GTKSHARP_REQUIRED_VERSION=0.91
+ MONO_REQUIRED_VERSION=0.90
+-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION mono >= $MONO_REQUIRED_VERSION)
++PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION)
++
++PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
++PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
++
++if test "x$has_mono" = "xtrue"; then
++    echo "using mono"
++    RUNTIME="mono --debug"
++else
++    if test "x$has_mint" = "xtrue"; then
++        echo "using mint"
++	RUNTIME="mint"
++    else
++	AC_MSG_ERROR([Unable to find mono or mint packages]);
++    fi
++fi
++AC_SUBST(RUNTIME)
++
++BASE_DEPENDENCIES_CFLAGS="$BASE_DEPENDENCIES_CFLAGS $BASE_DEPENDENCIES_RUNTIME_CFLAGS"
++BASE_DEPENDENCIES_LIBS="$BASE_DEPENDENCIES_LIBS $BASE_DEPENDENCIES_RUNTIME_LIBS"
+ 
+ AC_OUTPUT([
+ Makefile
