@@ -28,6 +28,7 @@ generowania i przegl±dania.
 %setup -q
 
 %build
+cp -f /usr/share/automake/config.sub .
 %configure
 %{__make}
 
