@@ -33,15 +33,13 @@ generowania i przegl±dania.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/{%{_desktopdir},%{_pixmapsdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/%{_desktopdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/%{_desktopdir}
-
-install -d $RPM_BUILD_ROOT/%{_pixmapsdir}
-install $RPM_BUILD_DIR/%{name}-%{version}/monodoc.png $RPM_BUILD_ROOT/%{_pixmapsdir}
+install monodoc.png $RPM_BUILD_ROOT/%{_pixmapsdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
