@@ -1,14 +1,15 @@
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
-Version:	1.0
-Release:	4
+Version:	1.0.1
+Release:	1
 License:	GPL
 Group:		Development/Tools
-Source0:	http://www.go-mono.com/archive/1.0/%{name}-%{version}.tar.gz
-# Source0-md5:	6efe0e32178871ff34e72a183fe5e585
+Source0:	http://www.go-mono.com/archive/1.0.1/%{name}-%{version}.tar.gz
+# Source0-md5:	ad3727615b2848eea63c578525f7793e
 Source1:	%{name}.desktop
 Patch0:		%{name}-mint.patch
+Patch1:		%{name}-gacdir.patch
 URL:		http://www.go-mono.com/
 BuildRequires:	dotnet-gtk-sharp-devel >= 0.98
 BuildRequires:	mono-devel >= 0.96
@@ -31,6 +32,7 @@ generowania i przegl±dania.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
 
 %build
 %{__aclocal}
