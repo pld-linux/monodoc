@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=MonoDoc
+Comment=The Mono Documentation Library viewer
+Exec=monodoc
+Icon=monodoc.svg
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;Application;Development;
