@@ -11,6 +11,7 @@ Source1:	%{name}.desktop
 URL:		http://www.go-mono.com/
 BuildRequires:	dotnet-gtk-sharp-devel >= 0.98
 BuildRequires:	mono-devel >= 0.96
+BuildRequires:	mono-csharp >= 0.96
 Requires:	dotnet-gtk-sharp >= 0.98
 Requires:	mono >= 0.96
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
