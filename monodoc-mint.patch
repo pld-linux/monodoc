@@ -95,34 +95,34 @@ diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
 diff -Nuard monodoc-1.0.orig/configure.in monodoc-1.0/configure.in
 --- monodoc-1.0.orig/configure.in	2004-06-29 18:04:06.000000000 +0200
 +++ monodoc-1.0/configure.in	2004-07-03 18:47:11.349883592 +0200
-@@ -26,7 +26,26 @@
- 
- GTKSHARP_REQUIRED_VERSION=0.91
- MONO_REQUIRED_VERSION=0.90
--PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION mono >= $MONO_REQUIRED_VERSION)
-+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION)
+@@ -41,7 +41,26 @@
+ if test "x$with_gtk" = "xyes" ; then
+   GTKSHARP_REQUIRED_VERSION=0.91
+   MONO_REQUIRED_VERSION=0.90
+-  PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION mono >= $MONO_REQUIRED_VERSION)
++  PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION glade-sharp >= $GTKSHARP_REQUIRED_VERSION)
 +
-+PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
-+PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
++  PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
++  PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
 +
-+if test "x$has_mono" = "xtrue"; then
-+    echo "using mono"
-+    RUNTIME="mono --debug"
-+else
-+    if test "x$has_mint" = "xtrue"; then
-+        echo "using mint"
-+	RUNTIME="mint"
-+    else
-+	AC_MSG_ERROR([Unable to find mono or mint packages]);
-+    fi
-+fi
-+AC_SUBST(RUNTIME)
++  if test "x$has_mono" = "xtrue"; then
++      echo "using mono"
++      RUNTIME="mono --debug"
++  else
++      if test "x$has_mint" = "xtrue"; then
++          echo "using mint"
++         RUNTIME="mint"
++      else
++         AC_MSG_ERROR([Unable to find mono or mint packages]);
++      fi
++  fi
++  AC_SUBST(RUNTIME)
 +
-+BASE_DEPENDENCIES_CFLAGS="$BASE_DEPENDENCIES_CFLAGS $BASE_DEPENDENCIES_RUNTIME_CFLAGS"
-+BASE_DEPENDENCIES_LIBS="$BASE_DEPENDENCIES_LIBS $BASE_DEPENDENCIES_RUNTIME_LIBS"
++  BASE_DEPENDENCIES_CFLAGS="$BASE_DEPENDENCIES_CFLAGS $BASE_DEPENDENCIES_RUNTIME_CFLAGS"
++  BASE_DEPENDENCIES_LIBS="$BASE_DEPENDENCIES_LIBS $BASE_DEPENDENCIES_RUNTIME_LIBS"
+ fi
  
  AC_OUTPUT([
- Makefile
 diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
 --- monodoc-1.0.orig/monodoc.in	2004-06-04 18:34:25.000000000 +0200
 +++ monodoc-1.0/monodoc.in	2004-07-03 18:47:32.430678824 +0200
@@ -135,17 +135,28 @@ diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
  	;;
      x--get-sourcesdir)
  	echo $monodocdir/sources
-@@ -22,11 +22,11 @@
+@@ -22,20 +22,20 @@
  	;;
      x--normalize)
  	shift;
 -	exec mono $monodocdir/normalize.exe "$@"
 +	exec @RUNTIME@ $monodocdir/normalize.exe "$@"
  	;;
- 	x--update)
+     x--update)
  	shift;
 -	exec mono $monodocdir/updater.exe "$@"
 +	exec @RUNTIME@ $monodocdir/updater.exe "$@"
+ 	;;
+     x--cs-to-ecma)
+ 	shift;
+-	exec mono $monodocdir/cs2ecma.exe "$@"
++	exec @RUNTIME@ $monodocdir/cs2ecma.exe "$@"
+ 	exit 0
+ 	;;
+     x--validate)
+ 	shift;
+-	exec mono $monodocdir/validate.exe "$@"
++	exec @RUNTIME@ $monodocdir/validate.exe "$@"
  	;;
      x--help)
  	echo "Usage is:"
