@@ -123,3 +123,17 @@ diff -Nuard monodoc-1.0.orig/configure.in monodoc-1.0/configure.in
  
  AC_OUTPUT([
  Makefile
+diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
+--- monodoc-1.0.orig/monodoc.in	2004-06-04 18:34:25.000000000 +0200
++++ monodoc-1.0/monodoc.in	2004-07-01 22:25:25.000000000 +0200
+@@ -50,8 +50,8 @@
+ 
+ cd $monodocdir
+ if test `basename $0` = mod; then
+-    mono --debug mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
++    @RUNTIME@ mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
+     exit
+ fi
+ 
+-exec mono --debug browser.exe $OPTIONS "$@" $REST
++exec @RUNTIME@ browser.exe $OPTIONS "$@" $REST
