@@ -1,6 +1,6 @@
 diff -Nuard monodoc-1.0.orig/browser/Makefile.am monodoc-1.0/browser/Makefile.am
 --- monodoc-1.0.orig/browser/Makefile.am	2004-06-24 02:51:18.000000000 +0200
-+++ monodoc-1.0/browser/Makefile.am	2004-07-01 22:00:13.561095024 +0200
++++ monodoc-1.0/browser/Makefile.am	2004-07-03 18:47:11.347883896 +0200
 @@ -79,10 +79,10 @@
  	if sed 's,@''monodocdir@,$(monodocdir),' $(srcdir)/monodoc.dll.config.in > $@t; then mv $@t $@; else rm -f $@t ; exit 1; fi
  
@@ -25,7 +25,7 @@ diff -Nuard monodoc-1.0.orig/browser/Makefile.am monodoc-1.0/browser/Makefile.am
  	mysql -u admin -p 
 diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
 --- monodoc-1.0.orig/class/Makefile.am	2004-06-29 13:41:01.000000000 +0200
-+++ monodoc-1.0/class/Makefile.am	2004-07-01 22:00:40.448007592 +0200
++++ monodoc-1.0/class/Makefile.am	2004-07-03 18:47:11.348883744 +0200
 @@ -14,37 +14,37 @@
  netdocs: netdocs.tree
  
@@ -94,7 +94,7 @@ diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
  	find . -name '*.xml' > files
 diff -Nuard monodoc-1.0.orig/configure.in monodoc-1.0/configure.in
 --- monodoc-1.0.orig/configure.in	2004-06-29 18:04:06.000000000 +0200
-+++ monodoc-1.0/configure.in	2004-07-01 22:01:11.387304104 +0200
++++ monodoc-1.0/configure.in	2004-07-03 18:47:11.349883592 +0200
 @@ -26,7 +26,26 @@
  
  GTKSHARP_REQUIRED_VERSION=0.91
@@ -125,7 +125,30 @@ diff -Nuard monodoc-1.0.orig/configure.in monodoc-1.0/configure.in
  Makefile
 diff -Nuard monodoc-1.0.orig/monodoc.in monodoc-1.0/monodoc.in
 --- monodoc-1.0.orig/monodoc.in	2004-06-04 18:34:25.000000000 +0200
-+++ monodoc-1.0/monodoc.in	2004-07-01 22:25:25.000000000 +0200
++++ monodoc-1.0/monodoc.in	2004-07-03 18:47:32.430678824 +0200
+@@ -14,7 +14,7 @@
+ case x$1 in
+     x--assemble)
+ 	shift;
+-	exec mono $monodocdir/assembler.exe "$@"
++	exec @RUNTIME@ $monodocdir/assembler.exe "$@"
+ 	;;
+     x--get-sourcesdir)
+ 	echo $monodocdir/sources
+@@ -22,11 +22,11 @@
+ 	;;
+     x--normalize)
+ 	shift;
+-	exec mono $monodocdir/normalize.exe "$@"
++	exec @RUNTIME@ $monodocdir/normalize.exe "$@"
+ 	;;
+ 	x--update)
+ 	shift;
+-	exec mono $monodocdir/updater.exe "$@"
++	exec @RUNTIME@ $monodocdir/updater.exe "$@"
+ 	;;
+     x--help)
+ 	echo "Usage is:"
 @@ -50,8 +50,8 @@
  
  cd $monodocdir
