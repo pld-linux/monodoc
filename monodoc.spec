@@ -1,18 +1,18 @@
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
-Version:	0.11
+Version:	0.13
 Release:	1
 License:	GPL
 Group:		Development/Tools
 Source0:	http://www.go-mono.com/archive/%{name}-%{version}.tar.gz
-# Source0-md5:	56683fef5ddc2677433ee35e2d356204
+# Source0-md5:	0caa3508b38d89cd14a6391e83731fe2
 Source1:	%{name}.desktop
 URL:		http://www.go-mono.com/
-BuildRequires:	gtk-sharp-devel >= 0.17
-BuildRequires:	mono-devel >= 0.30
-Requires:	gtk-sharp >= 0.17
-Requires:	mono >= 0.30
+BuildRequires:	gtk-sharp-devel >= 0.18
+BuildRequires:	mono-devel >= 0.31
+Requires:	gtk-sharp >= 0.18
+Requires:	mono >= 0.31
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -56,3 +56,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}/sources
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/*
+%{_pkgconfigdir}/*.pc
