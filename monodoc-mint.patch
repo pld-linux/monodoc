@@ -5,12 +5,12 @@ diff -Nuard monodoc-1.0.orig/browser/Makefile.am monodoc-1.0/browser/Makefile.am
  	if sed 's,@''monodocdir@,$(monodocdir),' $(srcdir)/monodoc.dll.config.in > $@t; then mv $@t $@; else rm -f $@t ; exit 1; fi
  
  b: browser.exe
--	mono --debug browser.exe
-+	$(RUNTIME) browser.exe
+-	MONO_PATH=. mono --debug browser.exe
++	MONO_PATH=. $(RUNTIME) browser.exe
  
  c: admin.exe
--	mono --debug admin.exe
-+	$(RUNTIME) admin.exe
+-	MONO_PATH=. mono --debug admin.exe
++	MONO_PATH=. $(RUNTIME) admin.exe
  
  mod.exe: mod.cs monodoc.dll
  	$(CSC) $(srcdir)/mod.cs -r:./monodoc.dll -out:mod.exe
@@ -36,9 +36,9 @@ diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
  #
  # All the Mono.* namespaces go into a single package
  #
- Mono.tree Mono.zip: $(srcdir)/Mono.Security/en/*/*.xml $(srcdir)/Mono.Security.Win32/en/*/*.xml $(srcdir)/Commons.Xml.Relaxng/en/*/*.xml
--	mono --debug ../browser/assembler.exe --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
-+	$(RUNTIME) ../browser/assembler.exe --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
+ Mono.tree Mono.zip: $(srcdir)/Mono.Cairo/en/*/*.xml $(srcdir)/Mono.Posix/en/*/*.xml $(srcdir)/Mono.Security/en/*/*.xml $(srcdir)/Mono.Security.Win32/en/*/*.xml $(srcdir)/Commons.Xml.Relaxng/en/*/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
++	$(RUNTIME) ../browser/assembler.exe --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
  
  #
  # All the Novell namespaces we handle go into a single file (one for now).
@@ -74,8 +74,8 @@ diff -Nuard monodoc-1.0.orig/class/Makefile.am monodoc-1.0/class/Makefile.am
  
  update:
  	for i in $(UPDATE_DIRS); do \
--		mono --debug ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en -f || exit 1;	\
-+		$(RUNTIME) ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en -f || exit 1;	\
+-		mono --debug ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en || exit 1;	\
++		$(RUNTIME) ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en || exit 1;	\
  	done
 -	mono --debug ../generator/updater.exe @prefix@/lib/mscorlib.dll -o ./corlib/en -f
 -	mono --debug ../generator/updater.exe @prefix@/lib/System.Xml.dll -o ./System.XML/en -f
