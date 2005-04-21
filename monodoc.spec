@@ -1,3 +1,6 @@
+# Conditional build
+%bcond_with     dotnet2 # with gtk-sharp 1.9.x
+#
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
@@ -9,6 +12,7 @@ Source0:	http://www.go-mono.com/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	f2fc27e8e4717d90dc7efa2450625693
 Source1:	%{name}.desktop
 Patch0:		%{name}-mint.patch
+Patch1:		%{name}-gtk_sharp_2.patch
 URL:		http://www.go-mono.com/
 BuildRequires:	dotnet-gtk-sharp-devel >= 0.98
 BuildRequires:	mono-csharp >= 0.96
@@ -31,6 +35,7 @@ generowania i przegl±dania.
 %prep
 %setup -q
 %patch0 -p1
+%{?with_dotnet2:%patch1 -p1}
 
 %build
 %{__aclocal}
@@ -60,7 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
 %{_libdir}/mono/gac/*
-%{_libdir}/mono/gtk-sharp/*
+%{_libdir}/mono/gtk-sharp%{?with_dotnet2:-2.0}/*
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.exe
 %{_libdir}/%{name}/*.xml
