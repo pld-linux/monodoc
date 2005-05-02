@@ -6,7 +6,7 @@ Summary:	Documentation for Mono class libraries and tools to produce and edit th
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
 Version:	1.0.6
-Release:	2
+Release:	3
 License:	GPL
 Group:		Development/Tools
 Source0:	http://www.go-mono.com/archive/%{version}/%{name}-%{version}.tar.gz
@@ -18,10 +18,10 @@ URL:		http://www.go-mono.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
 # wants {gtk,gtkhtml,glade}-sharp
-BuildRequires:	dotnet-gtk-gnome-sharp-devel >= 0.98
+BuildRequires:	dotnet-gtk-sharp-gnome-devel >= 0.98
 BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	pkgconfig
-Requires:	dotnet-gtk-gnome-sharp >= 0.98
+Requires:	dotnet-gtk-sharp-gnome >= 0.98
 Requires:	mono >= 0.96
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
