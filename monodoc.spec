@@ -1,11 +1,12 @@
+#
 # Conditional build
-%bcond_with     dotnet2 # with gtk-sharp 1.9.x
+%bcond_with     dotnet2	# with gtk-sharp 1.9.x
 #
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
 Version:	1.0.6
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Tools
 Source0:	http://www.go-mono.com/archive/%{version}/%{name}-%{version}.tar.gz
@@ -14,13 +15,14 @@ Source1:	%{name}.desktop
 Patch0:		%{name}-mint.patch
 Patch1:		%{name}-gtk_sharp_2.patch
 URL:		http://www.go-mono.com/
-BuildRequires:	dotnet-gtk-sharp-devel >= 0.98
-BuildRequires:	mono-csharp >= 0.96
-BuildRequires:	automake
 BuildRequires:	autoconf
-Requires:	dotnet-gtk-sharp >= 0.98
+BuildRequires:	automake
+# wants {gtk,gtkhtml,glade}-sharp
+BuildRequires:	dotnet-gtk-gnome-sharp-devel >= 0.98
+BuildRequires:	mono-csharp >= 0.96
+BuildRequires:	pkgconfig
+Requires:	dotnet-gtk-gnome-sharp >= 0.98
 Requires:	mono >= 0.96
-ExcludeArch:	alpha
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -46,13 +48,13 @@ generowania i przegl±dania.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install %{SOURCE1} $RPM_BUILD_ROOT/%{_desktopdir}
-install monodoc.png $RPM_BUILD_ROOT/%{_pixmapsdir}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+install monodoc.png $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
