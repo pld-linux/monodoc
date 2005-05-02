@@ -60,7 +60,7 @@ install monodoc.png $RPM_BUILD_ROOT%{_pixmapsdir}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/usr/bin/monodoc --make-index
+/usr/bin/monodoc --make-index >/dev/null 2>/dev/null
 
 %files
 %defattr(644,root,root,755)
