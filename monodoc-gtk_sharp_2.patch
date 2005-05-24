@@ -32,3 +32,16 @@ diff -aurN monodoc-1.0.6.orig/configure.in monodoc-1.0.6/configure.in
  	PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
  	PKG_CHECK_MODULES(BASE_DEPENDENCIES_RUNTIME, mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
  	if test "x$has_mono" = "xtrue"; then
+--- monodoc-1.0.6/monodoc.pc.in~	2005-05-24 21:38:01.906304160 +0200
++++ monodoc-1.0.6/monodoc.pc.in	2005-05-24 21:38:21.599310368 +0200
+@@ -1,8 +1,8 @@
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-libdir=@libdir@
++libdir=/usr/lib
+ 
+ Name: Monodoc
+ Description: Monodoc - Mono Documentation Browser
+ Version: @VERSION@
+-Libs: /r:${libdir}/mono/gtk-sharp/monodoc.dll 
++Libs: /r:${libdir}/mono/gtk-sharp-2.0/monodoc.dll 
