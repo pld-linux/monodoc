@@ -14,6 +14,7 @@ BuildRequires:	automake
 BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	pkgconfig
 Requires:	mono >= 0.96
+Requires:	mono-tools
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -41,8 +42,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 	
-install monodoc $RPM_BUILD_ROOT%{_bindir}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
