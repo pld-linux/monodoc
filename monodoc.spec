@@ -13,7 +13,6 @@ BuildRequires:	automake
 BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	pkgconfig
 Requires:	mono >= 0.96
-Requires:	mono-tools
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
