@@ -8,6 +8,7 @@ Group:		Development/Tools
 Source0:	http://www.go-mono.com/sources/monodoc/%{name}-%{version}.tar.gz
 # Source0-md5:	10689c70d273b56773fae216d96e6396
 URL:		http://www.go-mono.com/
+BuildRequires:	resolving-post-issue
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	mono-csharp >= 0.96
