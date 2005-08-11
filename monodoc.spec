@@ -14,7 +14,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	pkgconfig
-BuildRequires:	rpm-build >= 4.4.2-0.3
+BuildRequires:	rpmbuild(monoautodeps)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
