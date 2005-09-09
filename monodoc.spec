@@ -2,19 +2,18 @@
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
 Name:		monodoc
-Version:	1.0.7
-Release:	3
+Version:	1.1.9
+Release:	1
 License:	GPL
 Group:		Development/Tools
 Source0:	http://www.go-mono.com/sources/monodoc/%{name}-%{version}.tar.gz
-# Source0-md5:	10689c70d273b56773fae216d96e6396
+# Source0-md5:	2b8548b7160c1f3124c9f7b8f2044a88
 URL:		http://www.go-mono.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(monoautodeps)
-Requires:	mono-tools
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -46,9 +45,6 @@ install monodoc $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post
-/usr/bin/monodoc --make-index >/dev/null 2>/dev/null || :
 
 %files
 %defattr(644,root,root,755)
