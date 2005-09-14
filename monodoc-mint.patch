@@ -1,0 +1,98 @@
+--- monodoc-1.1.9/class/Makefile.am.orig	2005-06-08 21:24:41.000000000 +0200
++++ monodoc-1.1.9/class/Makefile.am	2005-09-14 13:46:59.000000000 +0200
+@@ -14,37 +14,37 @@
+ netdocs: netdocs.tree
+ 
+ netdocs.tree netdocs.zip: $(srcdir)/*/en/*/*.xml $(srcdir)/*/en/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/corlib/en/ --ecma $(srcdir)/System/en/  --ecma $(srcdir)/System.XML/en/ --ecma $(srcdir)/System.Web/en --ecma $(srcdir)/System.Web.Services/en --ecma $(srcdir)/System.Data/en --ecma $(srcdir)/System.DirectoryServices/en --ecma $(srcdir)/System.Drawing/en --ecma $(srcdir)/System.Security/en -o netdocs 
++	$(RUNTIME) $(RDEBUG) ../browser/assembler.exe --ecma $(srcdir)/corlib/en/ --ecma $(srcdir)/System/en/  --ecma $(srcdir)/System.XML/en/ --ecma $(srcdir)/System.Web/en --ecma $(srcdir)/System.Web.Services/en --ecma $(srcdir)/System.Data/en --ecma $(srcdir)/System.DirectoryServices/en --ecma $(srcdir)/System.Drawing/en --ecma $(srcdir)/System.Security/en -o netdocs 
+ 
+ #
+ # All the Mono.* namespaces go into a single package
+ #
+ Mono.tree Mono.zip: $(srcdir)/Mono.Cairo/en/*/*.xml  $(srcdir)/Mono.GetOptions/en/*/*.xml $(srcdir)/Mono.Posix/en/*/*.xml $(srcdir)/Mono.Security/en/*/*.xml $(srcdir)/Mono.Security.Win32/en/*/*.xml $(srcdir)/Commons.Xml.Relaxng/en/*/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.GetOptions/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
++	$(RUNTIME) $(RDEBUG) ../browser/assembler.exe --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.GetOptions/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
+ 
+ #
+ # All the Novell namespaces we handle go into a single file (one for now).
+ #
+ Novell.tree Novell.zip: $(srcdir)/Novell.Directory.Ldap/en/*/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/Novell.Directory.Ldap/en/ -o Novell
++	$(RUNTIME) $(RDEBUG) ../browser/assembler.exe --ecma $(srcdir)/Novell.Directory.Ldap/en/ -o Novell
+ 
+ #
+ # These are the NUnit documents, not sure why we have these, if NUnit is well documented
+ #
+ nunit-docs.tree nunit-docs.zip: $(srcdir)/nunit/en/*/*.xml $(srcdir)/nunit/en/*.xml
+-	mono --debug ../browser/assembler.exe --ecma $(srcdir)/nunit/en/ -o nunit-docs
++	$(RUNTIME) $(RDEBUG) ../browser/assembler.exe --ecma $(srcdir)/nunit/en/ -o nunit-docs
+ 
+ #
+ # Generation of C# errors, from the mcs source tree
+ #
+ cs-errors.tree cs-errors.zip: $(srcdir)/cs-errors.config
+-	mono --debug ../browser/assembler.exe --error $(srcdir)/cs-errors.config -o cs-errors
++	$(RUNTIME) $(RDEBUG) ../browser/assembler.exe --error $(srcdir)/cs-errors.config -o cs-errors
+ 
+ #
+ # The ECMA C# specification, from Jon Jagger.
+ #
+ ecma334.tree ecma334.zip: $(srcdir)/../ecma334/*
+-	mono --debug ../browser/assembler.exe --ecmaspec $(srcdir)/../ecma334 -o ecma334
++	$(RUNTIME) $(RDEBUG) ../browser/assembler.exe --ecmaspec $(srcdir)/../ecma334 -o ecma334
+ 
+ CLEANFILES = \
+ 	ecma334.tree ecma334.zip 	\
+@@ -74,14 +74,14 @@
+ 
+ update:
+ 	for i in $(UPDATE_DIRS); do \
+-		mono --debug ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en || exit 1;	\
++		$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en || exit 1;	\
+ 	done
+-	mono --debug ../generator/updater.exe @prefix@/lib/mscorlib.dll -o ./corlib/en -f
+-	mono --debug ../generator/updater.exe @prefix@/lib/System.Xml.dll -o ./System.XML/en -f
+-	mono --debug ../generator/updater.exe /usr/local/lib/System.Security.dll -o ./System.Security/en -f
+-	mono --debug ../generator/updater.exe /usr/local/lib/Mono.Security.dll -o ./Mono.Security/en -f
+-	mono --debug ../generator/updater.exe /usr/local/lib/Mono.Security.Win32.dll -o ./Mono.Security.Win32/en -f
+-	mono --debug ../generator/updater.exe @prefix@/lib/NUnit.Framework.dll -o ./nunit/en -f
++	$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/mscorlib.dll -o ./corlib/en -f
++	$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/System.Xml.dll -o ./System.XML/en -f
++	$(RUNTIME) $(RDEBUG) ../generator/updater.exe /usr/local/lib/System.Security.dll -o ./System.Security/en -f
++	$(RUNTIME) $(RDEBUG) ../generator/updater.exe /usr/local/lib/Mono.Security.dll -o ./Mono.Security/en -f
++	$(RUNTIME) $(RDEBUG) ../generator/updater.exe /usr/local/lib/Mono.Security.Win32.dll -o ./Mono.Security.Win32/en -f
++	$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/NUnit.Framework.dll -o ./nunit/en -f
+ 
+ dist-hook:
+ 	find . -name '*.xml' > files
+--- monodoc-1.1.9/configure.in.orig	2005-09-08 20:14:32.000000000 +0200
++++ monodoc-1.1.9/configure.in	2005-09-14 13:50:15.000000000 +0200
+@@ -12,6 +12,11 @@
+ 
+ AC_PATH_PROG(GACUTIL, gacutil, no)
+-AC_PATH_PROG(RUNTIME, mono, no)
++AC_PATH_PROGS(RUNTIME, [mono mint], no)
++RDEBUG=
++if test "x$RUNTIME" = "x/usr/bin/mono" ; then
++        RDEBUG=--debug
++fi
++AC_SUBST(RDEBUG)
+ AC_PATH_PROG(CSC, mcs, no)
+ 
+ 
+@@ -20,12 +23,12 @@
+ fi
+ AC_SUBST(GACUTIL)
+ 
+-if test "x$GACUTIL" = "xno" ; then
++if test "x$RUNTIME" = "xno" ; then
+         AC_MSG_ERROR([No mono found])
+ fi
+ 
+ CS="C#"
+-if test "x$MCS" = "xno"  ; then
++if test "x$CSC" = "xno"  ; then
+ 	AC_MSG_ERROR([No $CS compiler found])
+ fi
+ 
