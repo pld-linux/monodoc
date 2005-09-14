@@ -8,6 +8,7 @@ License:	GPL
 Group:		Development/Tools
 Source0:	http://www.go-mono.com/sources/monodoc/%{name}-%{version}.tar.gz
 # Source0-md5:	2b8548b7160c1f3124c9f7b8f2044a88
+Patch0:		%{name}-mint.patch
 URL:		http://www.go-mono.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -27,6 +28,7 @@ generowania i przegl±dania.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__aclocal}
