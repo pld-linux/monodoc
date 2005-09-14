@@ -96,3 +96,71 @@
  	AC_MSG_ERROR([No $CS compiler found])
  fi
  
+--- monodoc-1.1.9/monodoc.in.orig	2005-05-01 19:48:01.000000000 +0200
++++ monodoc-1.1.9/monodoc.in	2005-09-14 14:17:42.000000000 +0200
+@@ -13,22 +13,22 @@
+ 	;;
+ 
+     monodocer)
+-	exec mono $monodocdir/monodocer.exe $*
++	exec @RUNTIME@ $monodocdir/monodocer.exe $*
+ 	;;
+ 
+     monodocs2html)
+-	exec mono $monodocdir/monodocs2html.exe $*
++	exec @RUNTIME@ $monodocdir/monodocs2html.exe $*
+ 	;;
+ 
+     monodocs2slashdoc)
+-	exec mono $monodocdir/monodocs2slashdoc.exe $*
++	exec @RUNTIME@ $monodocdir/monodocs2slashdoc.exe $*
+ 	;;
+ esac
+ 
+ case x$1 in
+     x--assemble)
+ 	shift;
+-	exec mono $monodocdir/assembler.exe "$@"
++	exec @RUNTIME@ $monodocdir/assembler.exe "$@"
+ 	;;
+     x--get-sourcesdir)
+ 	echo $monodocdir/sources
+@@ -36,7 +36,7 @@
+ 	;;
+     x--normalize)
+ 	shift;
+-	exec mono $monodocdir/normalize.exe "$@"
++	exec @RUNTIME@ $monodocdir/normalize.exe "$@"
+ 	;;
+     x--update)
+ 	echo '--update deprecated;  Please use "monodocer" instead.'
+@@ -44,12 +44,12 @@
+ 	;;
+     x--cs-to-ecma)
+ 	shift;
+-	exec mono $monodocdir/cs2ecma.exe "$@"
++	exec @RUNTIME@ $monodocdir/cs2ecma.exe "$@"
+ 	exit 0
+ 	;;
+     x--validate)
+ 	shift;
+-	exec mono $monodocdir/validate.exe "$@"
++	exec @RUNTIME@ $monodocdir/validate.exe "$@"
+ 	;;
+     x--help)
+ 	echo "Usage is:"
+@@ -77,12 +77,12 @@
+ esac
+ 
+ if test `basename $0` = mod; then
+-    mono --debug $monodocdir/mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
++    @RUNTIME@ @RDEBUG@ $monodocdir/mod.exe $1 | lynx -dump -stdin -force_html | ${PAGER:-more}
+     exit
+ fi
+ 
+ if test -e $monodocdir/browser.exe; then
+-    exec mono --debug $monodocdir/browser.exe $OPTIONS "$@" $REST
++    exec @RUNTIME@ @RDEBUG@ $monodocdir/browser.exe $OPTIONS "$@" $REST
+ else
+     echo "The monodoc GUI component is not installed. Install it from the mono-tools package."
+ fi
