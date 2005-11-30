@@ -15,6 +15,7 @@ BuildRequires:	automake
 BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(monoautodeps)
+ExcludeArch:	i386 alpha sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
