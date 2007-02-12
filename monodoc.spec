@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.mono
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
-Summary(pl):	Dokumentacja klas Mono wraz z narzêdziami do jej generowania i przegl±dania
+Summary(pl.UTF-8):   Dokumentacja klas Mono wraz z narzÄ™dziami do jej generowania i przeglÄ…dania
 Name:		monodoc
 Version:	1.2.3
 Release:	1
@@ -24,9 +24,9 @@ This package contains the documentation for the Mono class libraries,
 tools to produce and edit the documentation, and a documentation
 browser.
 
-%description -l pl
-Ten pakiet zawiera dokumentacjê klas Mono wraz z narzêdziami do jej
-generowania i przegl±dania.
+%description -l pl.UTF-8
+Ten pakiet zawiera dokumentacjÄ™ klas Mono wraz z narzÄ™dziami do jej
+generowania i przeglÄ…dania.
 
 %prep
 %setup -q
