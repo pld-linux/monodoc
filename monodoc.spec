@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.mono
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
-Summary(pl.UTF-8):   Dokumentacja klas Mono wraz z narzędziami do jej generowania i przeglądania
+Summary(pl.UTF-8):	Dokumentacja klas Mono wraz z narzędziami do jej generowania i przeglądania
 Name:		monodoc
 Version:	1.2.3
 Release:	1
