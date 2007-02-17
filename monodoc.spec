@@ -16,7 +16,7 @@ BuildRequires:	mono-csharp >= 0.96
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(monoautodeps)
 BuildRequires:	unzip
-ExcludeArch:	i386 alpha sparc sparc64
+ExcludeArch:	i386
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
