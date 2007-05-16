@@ -1,18 +1,20 @@
---- monodoc-1.1.9/class/Makefile.am.orig	2005-06-08 21:24:41.000000000 +0200
-+++ monodoc-1.1.9/class/Makefile.am	2005-09-14 13:46:59.000000000 +0200
-@@ -25,37 +25,37 @@
+--- monodoc-1.2.4/class/Makefile.am.orig	2007-04-20 06:34:14.000000000 +0200
++++ monodoc-1.2.4/class/Makefile.am	2007-05-16 20:38:44.684151682 +0200
+@@ -21,7 +21,7 @@
  netdocs: netdocs.tree
  
  netdocs.tree netdocs.zip: $(srcdir)/*/en/*/*.xml $(srcdir)/*/en/*.xml
--	mono --debug $(ASSEMBLER) --ecma $(srcdir)/corlib/en/ --ecma $(srcdir)/System/en/  --ecma $(srcdir)/System.XML/en/ --ecma $(srcdir)/System.Web/en --ecma $(srcdir)/System.Web.Services/en --ecma $(srcdir)/System.Data/en --ecma $(srcdir)/System.DirectoryServices/en --ecma $(srcdir)/System.Drawing/en --ecma $(srcdir)/System.Security/en -o netdocs 
-+	$(RUNTIME) $(RDEBUG) $(ASSEMBLER) --ecma $(srcdir)/corlib/en/ --ecma $(srcdir)/System/en/  --ecma $(srcdir)/System.XML/en/ --ecma $(srcdir)/System.Web/en --ecma $(srcdir)/System.Web.Services/en --ecma $(srcdir)/System.Data/en --ecma $(srcdir)/System.DirectoryServices/en --ecma $(srcdir)/System.Drawing/en --ecma $(srcdir)/System.Security/en -o netdocs 
- 
- #
+-	mono --debug $(ASSEMBLER) -o netdocs			\
++	$(RUNTIME) $(RDEBUG) $(ASSEMBLER) -o netdocs			\
+ 		--ecma $(srcdir)/corlib/en/			\
+ 		--ecma $(srcdir)/System/en/			\
+ 		--ecma $(srcdir)/System.XML/en/			\
+@@ -39,31 +39,31 @@
  # All the Mono.* namespaces go into a single package
  #
- Mono.tree Mono.zip: $(srcdir)/Mono.Cairo/en/*/*.xml  $(srcdir)/Mono.GetOptions/en/*/*.xml $(srcdir)/Mono.Posix/en/*/*.xml $(srcdir)/Mono.Security/en/*/*.xml $(srcdir)/Mono.Security.Win32/en/*/*.xml $(srcdir)/Commons.Xml.Relaxng/en/*/*.xml
--	mono --debug $(ASSEMBLER) --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.GetOptions/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
-+	$(RUNTIME) $(RDEBUG) $(ASSEMBLER) --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.GetOptions/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ -o Mono
+ Mono.tree Mono.zip: $(srcdir)/Mono.Cairo/en/*/*.xml  $(srcdir)/Mono.GetOptions/en/*/*.xml $(srcdir)/Mono.Posix/en/*/*.xml $(srcdir)/Mono.Security/en/*/*.xml $(srcdir)/Mono.Security.Win32/en/*/*.xml $(srcdir)/Commons.Xml.Relaxng/en/*/*.xml $(srcdir)/Mono.Addins/en/*/*.xml
+-	mono --debug $(ASSEMBLER) --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.GetOptions/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ --ecma $(srcdir)/Mono.Addins/en/ -o Mono
++	$(RUNTIME) $(RDEBUG) $(ASSEMBLER) --ecma $(srcdir)/Mono.Cairo/en --ecma $(srcdir)/Mono.GetOptions/en --ecma $(srcdir)/Mono.Posix/en --ecma $(srcdir)/Mono.Security.Win32/en/ --ecma $(srcdir)/Mono.Security/en/ --ecma $(srcdir)/Commons.Xml.Relaxng/en/ --ecma $(srcdir)/Mono.Addins/en/ -o Mono
  
  #
  # All the Novell namespaces we handle go into a single file (one for now).
@@ -44,28 +46,28 @@
  
  CLEANFILES = \
  	ecma334.tree ecma334.zip 	\
-@@ -74,14 +74,14 @@
+@@ -96,10 +96,10 @@
+ 	System.Xml:System.XML
  
- update:
- 	for i in $(UPDATE_DIRS); do \
--		mono --debug ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en || exit 1;	\
-+		$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/$$i.dll -o ./$$i/en || exit 1;	\
+ UPDATE_COMMAND = \
+-	mono --debug ../tools/monodocer1.exe -pretty -overrides -ignore_extra_docs  \
++	$(RUNTIME) $(RDEBUG) ../tools/monodocer1.exe -pretty -overrides -ignore_extra_docs  \
+ 		-assembly:@prefix@/lib/mono/1.0/$(1).dll                                  \
+ 		-path:./$(2)/en || exit 1;                                                \
+-	mono --debug ../tools/monodocer.exe -pretty -overrides -since:".NET 2.0"    \
++	$(RUNTIME) $(RDEBUG) ../tools/monodocer.exe -pretty -overrides -since:".NET 2.0"    \
+ 		-assembly:@prefix@/lib/mono/2.0/$(1).dll                                  \
+ 		-path:./$(2)/en || exit 1;
+ 
+@@ -110,7 +110,7 @@
+ 		if test -z "$$d" ; then d="$$a"; fi; \
+ 		$(call UPDATE_COMMAND,$$a,$$d)
  	done
--	mono --debug ../generator/updater.exe @prefix@/lib/mscorlib.dll -o ./corlib/en -f
--	mono --debug ../generator/updater.exe @prefix@/lib/System.Xml.dll -o ./System.XML/en -f
--	mono --debug ../generator/updater.exe /usr/local/lib/System.Security.dll -o ./System.Security/en -f
--	mono --debug ../generator/updater.exe /usr/local/lib/Mono.Security.dll -o ./Mono.Security/en -f
--	mono --debug ../generator/updater.exe /usr/local/lib/Mono.Security.Win32.dll -o ./Mono.Security.Win32/en -f
--	mono --debug ../generator/updater.exe @prefix@/lib/NUnit.Framework.dll -o ./nunit/en -f
-+	$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/mscorlib.dll -o ./corlib/en -f
-+	$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/System.Xml.dll -o ./System.XML/en -f
-+	$(RUNTIME) $(RDEBUG) ../generator/updater.exe /usr/local/lib/System.Security.dll -o ./System.Security/en -f
-+	$(RUNTIME) $(RDEBUG) ../generator/updater.exe /usr/local/lib/Mono.Security.dll -o ./Mono.Security/en -f
-+	$(RUNTIME) $(RDEBUG) ../generator/updater.exe /usr/local/lib/Mono.Security.Win32.dll -o ./Mono.Security.Win32/en -f
-+	$(RUNTIME) $(RDEBUG) ../generator/updater.exe @prefix@/lib/NUnit.Framework.dll -o ./nunit/en -f
+-	mono --debug ../tools/monodocer.exe -pretty -overrides \
++	$(RUNTIME) $(RDEBUG) ../tools/monodocer.exe -pretty -overrides \
+ 		-assembly:@prefix@/lib/mono/1.0/nunit.framework.dll -path:./nunit/en
  
- dist-hook:
- 	find . -name '*.xml' > files
+ update-dir:
 --- monodoc-1.1.9/configure.in.orig	2005-09-08 20:14:32.000000000 +0200
 +++ monodoc-1.1.9/configure.in	2005-09-14 13:50:15.000000000 +0200
 @@ -12,6 +12,11 @@
