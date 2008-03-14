@@ -46,28 +46,18 @@
  
  CLEANFILES = \
  	ecma334.tree ecma334.zip 	\
-@@ -96,10 +96,10 @@
- 	System.Xml:System.XML
+@@ -96,9 +96,9 @@
+ 	else                                                                     \
+ 		__md__=monodocer.exe ;                                                 \
+ 	fi ;                                                                     \
+-	echo mono --debug ../tools/$$__md__ -show_exceptions -pretty -overrides  \
++	echo $(RUNTIME) $(RDEBUG) ../tools/$$__md__ -show_exceptions -pretty -overrides  \
+ 		-assembly:@prefix@/lib/mono/$(3)/$(1).dll -path:./$(2)/en $(MD_EXTRA); \
+-	mono --debug ../tools/$$__md__ -show_exceptions -pretty -overrides       \
++	$(RUNTIME) $(RDEBUG) ../tools/$$__md__ -show_exceptions -pretty -overrides       \
+ 		-assembly:@prefix@/lib/mono/$(3)/$(1).dll -path:./$(2)/en $(MD_EXTRA)
  
- UPDATE_COMMAND = \
--	mono --debug ../tools/monodocer1.exe -pretty -overrides -ignore_extra_docs  \
-+	$(RUNTIME) $(RDEBUG) ../tools/monodocer1.exe -pretty -overrides -ignore_extra_docs  \
- 		-assembly:@prefix@/lib/mono/1.0/$(1).dll                                  \
- 		-path:./$(2)/en || exit 1;                                                \
--	mono --debug ../tools/monodocer.exe -pretty -overrides -since:".NET 2.0"    \
-+	$(RUNTIME) $(RDEBUG) ../tools/monodocer.exe -pretty -overrides -since:".NET 2.0"    \
- 		-assembly:@prefix@/lib/mono/2.0/$(1).dll                                  \
- 		-path:./$(2)/en || exit 1;
- 
-@@ -110,7 +110,7 @@
- 		if test -z "$$d" ; then d="$$a"; fi; \
- 		$(call UPDATE_COMMAND,$$a,$$d)
- 	done
--	mono --debug ../tools/monodocer.exe -pretty -overrides \
-+	$(RUNTIME) $(RDEBUG) ../tools/monodocer.exe -pretty -overrides \
- 		-assembly:@prefix@/lib/mono/1.0/nunit.framework.dll -path:./nunit/en
- 
- update-dir:
+ IMPORT_COMMAND = \
 --- monodoc-1.1.9/configure.in.orig	2005-09-08 20:14:32.000000000 +0200
 +++ monodoc-1.1.9/configure.in	2005-09-14 13:50:15.000000000 +0200
 @@ -12,6 +12,11 @@

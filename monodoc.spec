@@ -2,13 +2,13 @@
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl.UTF-8):	Dokumentacja klas Mono wraz z narzędziami do jej generowania i przeglądania
 Name:		monodoc
-Version:	1.2.6
+Version:	1.9
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
 #Source0Download: http://go-mono.com/sources-stable/
 Source0:	http://go-mono.com/sources/monodoc/%{name}-%{version}.zip
-# Source0-md5:	bd4c9619ebf3b41803b7ca9097be7fc1
+# Source0-md5:	f42e660cd18be30a5c903e044149f0b2
 Patch0:		%{name}-mint.patch
 URL:		http://www.mono-project.com/
 BuildRequires:	autoconf
