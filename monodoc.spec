@@ -6,8 +6,8 @@ Version:	1.9
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
-#Source0Download: http://go-mono.com/sources-stable/
-Source0:	http://go-mono.com/sources/monodoc/%{name}-%{version}.zip
+# latest downloads summary at http://ftp.novell.com/pub/mono/sources-stable/
+Source0:	http://ftp.novell.com/pub/mono/sources/monodoc/%{name}-%{version}.zip
 # Source0-md5:	f42e660cd18be30a5c903e044149f0b2
 Patch0:		%{name}-mint.patch
 URL:		http://www.mono-project.com/
