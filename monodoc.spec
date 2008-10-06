@@ -2,13 +2,13 @@
 Summary:	Documentation for Mono class libraries and tools to produce and edit the documentation
 Summary(pl.UTF-8):	Dokumentacja klas Mono wraz z narzędziami do jej generowania i przeglądania
 Name:		monodoc
-Version:	1.9
+Version:	2.0
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
 # latest downloads summary at http://ftp.novell.com/pub/mono/sources-stable/
 Source0:	http://ftp.novell.com/pub/mono/sources/monodoc/%{name}-%{version}.zip
-# Source0-md5:	f42e660cd18be30a5c903e044149f0b2
+# Source0-md5:	1d1be22bb55f1c2f2fc50578fddb279e
 Patch0:		%{name}-mint.patch
 URL:		http://www.mono-project.com/
 BuildRequires:	autoconf
@@ -57,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/mdassembler
 %attr(755,root,root) %{_bindir}/mdcs2ecma
 %attr(755,root,root) %{_bindir}/mdnormalizer
-# typo?
+%attr(755,root,root) %{_bindir}/mdoc*
 %attr(755,root,root) %{_bindir}/mdvalidater
 %attr(755,root,root) %{_bindir}/mod
 %attr(755,root,root) %{_bindir}/monodoc
@@ -68,12 +68,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/mono/monodoc
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.exe
+%{_libdir}/%{name}/*.dll
 %{_libdir}/%{name}/*.xml
 %{_libdir}/%{name}/sources
 %{_pkgconfigdir}/monodoc.pc
 %{_mandir}/man1/mdassembler.1*
 %{_mandir}/man1/mdcs2ecma.1*
 %{_mandir}/man1/mdnormalizer.1*
+%{_mandir}/man1/mdoc*.1*
 %{_mandir}/man1/mdvalidator.1*
 %{_mandir}/man1/monodocer.1*
 %{_mandir}/man1/monodocs2html.1*
+%{_mandir}/man5/mdoc.5*
